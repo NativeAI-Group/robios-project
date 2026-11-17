@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f8f8f6" />
+    <meta name="description" content="RoBIOS：面向真实物理世界的具身原生 Agent 框架。由内核管理行动闭环，以插件复用具身能力。" />
+    <title>RoBIOS — 具身原生 Agent 框架</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=2" />
+    <link rel="stylesheet" href="styles.css?v=19" />
+    <script src="app.js?v=8" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main" data-en="Skip to content">跳转到正文</a>
+    <div class="masthead-wash" aria-hidden="true"></div>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="#" aria-label="RoBIOS 首页" data-en-aria-label="RoBIOS home"><svg class="brand-mark" viewBox="0 0 36 36" aria-hidden="true"><path d="M23.5 6.4A13 13 0 1 0 30.2 13"/><path d="M24 4v6h-6"/></svg><span>RoBIOS</span></a>
+        <div class="language-switch" role="group" aria-label="页面语言 / Page language"><button type="button" data-language="zh" lang="zh-CN" aria-pressed="true">中文</button><span aria-hidden="true">/</span><button type="button" data-language="en" lang="en" aria-pressed="false">EN</button></div>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="article-masthead" aria-labelledby="hero-title">
+        <h1 id="hero-title" data-en="RoBIOS: Embodied-Native Agents&lt;br class='title-break' /&gt; For The Physical World">RoBIOS：面向真实物理世界的<br class="title-break" />具身原生 Agent 框架</h1>
+        <p class="article-deck" data-en="A minimal kernel governs the action loop. Composable plugins bring embodied capabilities to every application.">以极简内核管理行动闭环，用可组合的插件复用具身能力。</p>
+      </section>
+
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="文章目录" data-en-aria-label="Contents">
+          <button class="toc-toggle" aria-expanded="true" aria-controls="toc-links"><span class="toc-label" data-en="CONTENTS">目录</span><span class="toc-indicator" aria-hidden="true">−</span></button>
+          <nav id="toc-links" aria-label="页面目录" data-en-aria-label="Page contents">
+            <a class="active" href="#overview">从任务意图，到持续行动</a>
+            <a href="#why">1. 为什么需要 RoBIOS？</a>
+            <a href="#architecture">2. 整体框架</a>
+            <a href="#kernel">3. 物理内核</a>
+            <a href="#plugins">4. 插件机制</a>
+            <a href="#evaluation">5. 实验验证</a>
+            <a href="#eval-loop" class="toc-child">5.1 闭环执行能力</a>
+            <a href="#eval-budget" class="toc-child">5.2 预算敏感的闭环控制粒度</a>
+            <a href="#eval-simulation" class="toc-child">5.3 多仿真环境验证</a>
+            <a href="#eval-embodiment" class="toc-child">5.4 多本体支持</a>
+            <a href="#eval-migration" class="toc-child">5.5 插件迁移与能力复用</a>
+            <a href="#resources">6. 项目资源</a>
+          </nav>
+        </aside>
+
+        <article class="article-content">
+          <section id="overview" class="article-section overview-section">
+            <h2 data-en="From intent to continuous action">从任务意图，到持续行动</h2>
+            <p data-en="RoBIOS turns human instructions into physical execution. The kernel and plugins manage action state, feedback, and embodied capabilities.">RoBIOS 接收人类指令并连接物理执行：<strong>内核与插件共同管理行动状态和反馈</strong>，让系统能够随环境变化持续调整行动。</p>
+            <figure class="article-figure loop-figure">
+              <div class="loop-visual" role="img" aria-label="RoBIOS 接收人类指令，由内核与插件共同连接物理世界并形成反馈。" data-en-aria-label="RoBIOS receives human instructions. The kernel and plugins connect to the physical world and form a feedback loop.">
+                <div class="visual-topline"><span>RoBIOS / KERNEL + PLUGINS</span><span data-en="Execution model">运行机制示意</span></div>
+                <div class="loop-nodes">
+                  <div class="intent-node"><span class="node-index">01 / HUMAN</span><strong data-en="Human instruction">人类指令</strong><span class="node-detail" data-en="Task goal · constraint">任务目标 · 约束</span></div>
+                  <span class="node-arrow" aria-hidden="true">→</span>
+                  <div class="robios-node">
+                    <div class="robios-title"><strong>RoBIOS</strong><span data-en="KERNEL + PLUGINS">内核 + 插件</span></div>
+                  </div>
+                  <span class="node-arrow" aria-hidden="true">⇄</span>
+                  <div class="world-node"><span class="node-index">02 / WORLD</span><svg class="robot-illustration" viewBox="0 0 160 100" aria-hidden="true"><path class="robot-ground" d="M10 87h140M114 87V66h25v21"/><path class="robot-arm" d="M32 82V66l24-36 35 17 20-19"/><circle cx="56" cy="30" r="8"/><circle cx="91" cy="47" r="7"/><path class="robot-gripper" d="m107 21 11 7-1 12m-6-12 9-10 10 9"/><path class="robot-base" d="M18 87v-8h29v8"/><path class="robot-signal" d="M124 52v5m12-10 4 4m-27 0-4 4"/></svg><strong data-en="Physical world">物理世界</strong><span class="node-detail" data-en="Robots &amp; environments">机器人与环境</span></div>
+                </div>
+                <div class="feedback-path"><span aria-hidden="true">↶</span><span data-en="Fast local feedback · execution status">本地快速闭环 · 反馈执行状态</span><span aria-hidden="true">↵</span></div>
+              </div>
+              <figcaption data-en="The kernel governs physical execution; plugins add reusable capabilities around it.">内核负责物理执行裁决，插件围绕内核提供可复用能力。</figcaption>
+            </figure>
+            <div id="hero-media"></div>
+          </section>
+
+          <section id="why" class="article-section">
+            <h2 data-en="1. Why RoBIOS?">1. 为什么需要 RoBIOS？</h2>
+            <p data-en="In the “digital agent + physical tools” model, a Robot-Use Agent plans and sends tasks while the tools execute passively. Physical feedback is delayed and actions are irreversible, exposing two gaps in this design.">在“数字 Agent + 物理工具”的模式中，Robot-Use Agent 负责规划和下发任务，物理工具被动执行。真实世界存在反馈延迟，且动作不可逆，因此这种模式面临两个显著问题。</p>
+            <div class="agent-comparison-wrap" role="region" aria-label="Robot-Use Agent 与 RoBIOS 对比" data-en-aria-label="Robot-Use Agent and RoBIOS comparison" tabindex="0">
+              <table class="agent-comparison">
+                <thead><tr><th scope="col" data-en="Design dimension">对比维度</th><th scope="col">Robot-Use Agent</th><th scope="col">RoBIOS</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row"><span class="comparison-index">01</span><span data-en="Safety fallback">安全兜底</span></th><td data-en="The digital agent is removed from the physical scene. If an instruction is unsafe or the scene changes, the passive tool has no local authority to intervene.">数字 Agent 脱离物理现场；指令不合理或现场突变时，被动工具缺少本地裁决权，难以及时兜底。</td><td data-en="The physical kernel checks admission, monitors execution, and handles exceptions on site.">物理内核在现场负责准入检查、执行监测与异常处置。</td></tr>
+                  <tr><th scope="row"><span class="comparison-index">02</span><span data-en="Real-time feedback">实时闭环</span></th><td data-en="Streaming every high-frequency state change to a large model raises inference cost and latency, limiting real-time response.">高频状态变化若都回传大模型，会增加推理成本与响应延迟，限制实时反馈。</td><td data-en="The kernel closes the fast loop locally and sends summarized state to the digital agent when higher-level replanning is needed.">内核在本地完成高频闭环，仅在需要上层重规划时向数字 Agent 汇总状态。</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="comparison-conclusion" data-en="&lt;strong&gt;RoBIOS’s key distinction:&lt;/strong&gt; The physical kernel governs execution; the digital agent handles planning."><strong>RoBIOS 的关键区别：</strong>执行裁决权交由物理内核，数字 Agent 保留规划职责。</p>
+            <div class="design-principles">
+              <h3 data-en="Design principles">设计原则</h3>
+              <dl>
+                <div><dt data-en="Control granularity follows the budget">控制粒度适应可用预算</dt><dd data-en="Balance execution quality, feedback frequency, and inference cost within the available budget.">依据可用预算调节闭环粒度，平衡执行效果、反馈频率与推理开销。</dd></div>
+                <div><dt data-en="Capabilities grow through plugins">能力通过插件持续扩展</dt><dd data-en="Compose and reuse capabilities around a stable kernel.">围绕稳定内核，按需组合和复用具身能力。</dd></div>
+              </dl>
+            </div>
+          </section>
+
+          <section id="architecture" class="article-section">
+            <h2 data-en="2. Framework">2. 整体框架</h2>
+            <p data-en="The planning layer proposes tasks, and the physical kernel manages execution. Plugins provide action capabilities, human–robot interaction, memory, and adapters for robots and simulation environments.">规划层提出任务，物理内核管理执行。插件提供行动能力、人机交互、记忆，以及真实机器人与仿真环境的适配。</p>
+            <figure class="article-figure architecture-card">
+              <div class="figure-topline"><button class="expand-button" data-open-architecture aria-label="查看原始详细架构图" data-en-aria-label="View the original detailed architecture"><span data-en="Detailed diagram">详细原图</span> <span aria-hidden="true">↗</span></button></div>
+              <div class="system-diagram" role="group" aria-label="RoBIOS 整体架构" data-en-aria-label="RoBIOS system architecture">
+                <div class="architecture-planning"><span class="diagram-eyebrow" data-en="PLANNING">规划层</span><strong>LLM <span>·</span> Pi Agent <span>·</span> OpenClaw</strong></div>
+                <div class="diagram-connector" aria-hidden="true">↕</div>
+                <div class="architecture-kernel-row">
+                  <div class="shared-plugin"><strong data-en="Human–robot interaction"><span>人机</span><span>交互</span><span>插件</span></strong><small data-en="Command · teaching · intervention">指令 · 示教 · 干预</small></div>
+                  <span class="diagram-port" aria-hidden="true">↔</span>
+                  <div class="kernel-shell architecture-kernel"><strong data-en="Physical kernel">物理内核</strong></div>
+                  <span class="diagram-port" aria-hidden="true">↔</span>
+                  <div class="shared-plugin"><strong data-en="Memory"><span>记忆</span><span>插件</span></strong><small data-en="User · world state · robot history">用户画像 · 世界状态 · 机器人经历</small></div>
+                </div>
+                <div class="diagram-connector" aria-hidden="true">↕</div>
+                <div class="architecture-plugin-row"><span class="diagram-eyebrow" data-en="LIFECYCLE PLUGINS">行动生命周期插件</span><p data-en="Propose · Admission · Execute · Monitor · Clearance">提议 · 准入 · 执行 · 监测 · 准出</p></div>
+                <div class="diagram-connector" aria-hidden="true">↕</div>
+                <div class="architecture-adapters"><div><span class="diagram-eyebrow">REAL HAL</span><strong data-en="Robot embodiments">真实机器人</strong><small>Galaxea G1 · Stardust T1 · Unitree G1</small></div><div><span class="diagram-eyebrow">SIM BRIDGE</span><strong data-en="Simulation environments">仿真环境</strong><small>RoboDojo · RoboCasa · BEHAVIOR-1K</small></div></div>
+              </div>
+            </figure>
+          </section>
+
+          <section id="kernel" class="article-section">
+            <h2 data-en="3. Physical kernel">3. 物理内核</h2>
+            <dl class="kernel-responsibilities">
+              <div><dt data-en="Execution decisions">执行裁决</dt><dd data-en="Decide whether to allow, block, or stop an action based on admission results, resource usage, and safety state.">根据准入结果、资源占用和安全状态，决定动作的放行、阻断与停止。</dd></div>
+              <div><dt data-en="State management">状态管理</dt><dd data-en="Maintain task progress, execution records, observation evidence, and acceptance results in a unified state.">统一维护任务进度、执行记录、观测证据和验收结果。</dd></div>
+              <div><dt data-en="Closed-loop scheduling">闭环调度</dt><dd data-en="Coordinate the stages, using feedback to advance the task or request replanning.">协调各环节，根据反馈推进任务或请求重新规划。</dd></div>
+              <div><dt data-en="Exception handling">异常处理</dt><dd data-en="Manage timeouts, failures, pauses, recovery, and cancellation; track stop confirmation and task finalization.">管理超时、失败、暂停、恢复和取消，跟踪停止确认与任务收尾。</dd></div>
+            </dl>
+            <figure class="article-figure kernel-cycle" aria-label="行动闭环" data-en-aria-label="Action loop">
+              <div class="architecture-lifecycle"><div><span>01</span><strong data-en="Propose">提议</strong></div><i aria-hidden="true">→</i><div><span>02</span><strong data-en="Admission">准入</strong></div><i aria-hidden="true">→</i><div class="active-step"><span>03</span><strong data-en="Execute">执行</strong></div><i class="inner-feedback" aria-hidden="true">⇄</i><div class="active-step"><span>04</span><strong data-en="Monitor">监测</strong></div><i aria-hidden="true">→</i><div><span>05</span><strong data-en="Clearance">准出</strong></div></div>
+              <figcaption data-en="Execution and monitoring form an inner feedback loop; state feedback drives the full action cycle.">执行与监测形成小闭环，状态反馈驱动完整行动周期。</figcaption>
+            </figure>
+          </section>
+
+          <section id="plugins" class="article-section">
+            <h2 data-en="4. Plugin ecosystem">4. 插件机制</h2>
+            <p data-en="Nine plugin types cover the action lifecycle, shared capabilities, and environment adapters. Select a group to explore.">九类插件覆盖行动生命周期、通用能力及环境适配。选择分类查看具体职责。</p>
+            <div class="plugin-workspace"><div class="plugin-tabs" role="tablist" aria-label="插件分类" data-en-aria-label="Plugin categories"><button id="plugin-tab-lifecycle" role="tab" aria-selected="true" aria-controls="plugin-panel" data-plugin="lifecycle" tabindex="0"><span data-en="Action lifecycle">行动生命周期</span><small>5</small></button><button id="plugin-tab-capabilities" role="tab" aria-selected="false" aria-controls="plugin-panel" data-plugin="capabilities" tabindex="-1"><span data-en="Shared capabilities">通用能力</span><small>2</small></button><button id="plugin-tab-adapters" role="tab" aria-selected="false" aria-controls="plugin-panel" data-plugin="adapters" tabindex="-1"><span data-en="Adapters">环境与本体适配</span><small>2</small></button></div><div id="plugin-panel" class="plugin-panel" role="tabpanel" aria-labelledby="plugin-tab-lifecycle" tabindex="0"></div></div>
+            <section class="plugin-assembly" aria-labelledby="plugin-assembly-title">
+              <h3 id="plugin-assembly-title" data-en="Plugin assembly workflow">插件装配流程</h3>
+              <ol class="assembly-flow">
+                <li><span>01</span><strong data-en="Declare">清单声明</strong><small data-en="List the required plugins">声明需要加载的插件</small></li>
+                <li><span>02</span><strong data-en="Compose">配置组合</strong><small data-en="Choose capabilities">按需选择并组合能力</small></li>
+                <li><span>03</span><strong data-en="Assemble">启动装配</strong><small data-en="Load at startup">启动时自动加载</small></li>
+              </ol>
+            </section>
+          </section>
+
+          <section id="evaluation" class="article-section">
+            <h2 data-en="5. Evaluation">5. 实验验证</h2>
+            <p data-en="Planned evaluations cover closed-loop execution, simulation environments, robot embodiments, and plugin migration. Videos and results will be added as available.">围绕闭环执行、多仿真环境、多本体支持与插件迁移开展验证。演示视频与结果待补充。</p>
+            <div id="evaluation-content"></div>
+            <p class="evaluation-footnote" data-en="“—” indicates pending data. Models, task configurations, budgets, and trial counts will accompany the results.">“—” 表示数据待补充。评测模型、任务配置、预算与试验次数将随结果一并说明。</p>
+          </section>
+
+          <section id="resources" class="article-section resources-section"><h2 data-en="6. Resources">6. 项目资源</h2><div class="resource-links"><div><span>GitHub</span></div><div><span data-en="Docs &amp; quick start">文档与快速开始</span></div><div><span data-en="Technical report">技术报告</span></div></div></section>
+        </article>
+      </div>
+    </main>
+
+    <footer class="site-footer"><a class="brand" href="#" aria-label="返回 RoBIOS 首页" data-en-aria-label="Back to RoBIOS home"><svg class="brand-mark" viewBox="0 0 36 36" aria-hidden="true"><path d="M23.5 6.4A13 13 0 1 0 30.2 13"/><path d="M24 4v6h-6"/></svg><span>RoBIOS</span></a><a href="#" class="back-to-top" data-en="Back to top ↑">回到顶部 ↑</a></footer>
+
+    <dialog id="video-dialog" class="media-dialog" aria-labelledby="video-dialog-title"><div class="dialog-topline"><span id="video-dialog-title"></span><button class="dialog-close" aria-label="关闭视频窗口" data-en-aria-label="Close video">×</button></div><div id="video-dialog-content"></div></dialog>
+    <dialog id="architecture-dialog" class="architecture-dialog" aria-labelledby="architecture-dialog-title"><div class="dialog-topline"><span id="architecture-dialog-title" data-en="RoBIOS · Original detailed architecture">RoBIOS · 原始详细架构图</span><div class="architecture-tools"><button id="architecture-zoom" aria-pressed="false">原尺寸查看</button><button class="dialog-close" aria-label="关闭架构图" data-en-aria-label="Close architecture">×</button></div></div><div class="architecture-scroll"><img src="assets/robios-architecture.png" alt="RoBIOS 原始中英双语架构图" data-en-alt="Original RoBIOS architecture with Chinese and English labels" width="1900" height="1771" /></div></dialog>
+  </body>
+</html>

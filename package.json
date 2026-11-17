@@ -1,0 +1,11 @@
+{
+  "name": "robios-website",
+  "version": "0.1.0",
+  "private": true,
+  "description": "RoBIOS project homepage",
+  "scripts": {
+    "dev": "python3 -m http.server 5173 --bind 127.0.0.1",
+    "start": "npm run dev",
+    "check": "node --check app.js"
+  }
+}
