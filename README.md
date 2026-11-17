@@ -23,7 +23,7 @@ npm run dev
 
 插件说明使用紧凑卡片，下方以“插件装配流程”说明声明、组合和启动装配。
 
-五组实验保留为连续章节。视频和指标明确标记为待补充，没有模拟成绩；预算敏感实验区保持空白。四个 RoboDojo 场景暂用编号，等待补充具体任务。仓库、文档与技术报告等待真实地址。
+五组实验保留为连续章节。视频和指标明确标记为待补充，没有模拟成绩；预算敏感实验区保持空白。四个 RoboDojo 场景暂用编号，等待补充具体任务。仓库与快速开始已链接至项目仓库及其 README，技术报告等待真实地址。
 
 添加视频时，在 `app.js` 的 `videoSources` 中配置媒体路径，支持 MP4/WebM。ID 包括 `hero`、`scene-1` 至 `scene-4`、`sim-robodojo`、`sim-robocasa`、`sim-behavior`、`robot-galaxea`、`robot-stardust`、`robot-unitree` 和 `migration`。配置后自动显示播放入口；没有视频的区域显示静态待补充状态。
 
