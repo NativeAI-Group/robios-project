@@ -8,8 +8,8 @@ const videoSources = {
 function preferredLanguage() {
   const requested = new URL(window.location.href).searchParams.get("lang");
   if (requested === "en" || requested === "zh") return requested;
-  try { return localStorage.getItem("robios-language") === "en" ? "en" : "zh"; }
-  catch { return "zh"; }
+  try { return localStorage.getItem("robios-language") === "zh" ? "zh" : "en"; }
+  catch { return "en"; }
 }
 let language = preferredLanguage();
 const t = (zh, en) => language === "en" ? en : zh;
@@ -18,10 +18,10 @@ let activeEnvironment = "robodojo";
 let activeScene = "1";
 const environmentNames = { robodojo: "RoboDojo", robocasa: "RoboCasa", behavior: "BEHAVIOR-1K" };
 
-// Capture the Chinese source once; language changes never accumulate replacements.
-const translations = [...document.querySelectorAll("[data-en]")].map(element => ({ element, zh: element.innerHTML, en: element.dataset.en }));
+// Capture the English source once; language changes never accumulate replacements.
+const translations = [...document.querySelectorAll("[data-zh]")].map(element => ({ element, en: element.innerHTML, zh: element.dataset.zh }));
 const translatedAttributes = ["aria-label", "alt", "title"].flatMap(attribute =>
-  [...document.querySelectorAll(`[data-en-${attribute}]`)].map(element => ({ element, attribute, zh: element.getAttribute(attribute), en: element.getAttribute(`data-en-${attribute}`) }))
+  [...document.querySelectorAll(`[data-zh-${attribute}]`)].map(element => ({ element, attribute, en: element.getAttribute(attribute), zh: element.getAttribute(`data-zh-${attribute}`) }))
 );
 
 function pluginGroups() {
@@ -82,8 +82,7 @@ const sceneTitle = () => `RoboDojo · ${sceneName(activeScene)}`;
 const simulationTitle = () => `${environmentNames[activeEnvironment]} · ${t("仿真演示", "Simulation demo")}`;
 
 function loopPanel() {
-  return `${evaluationHeading(t("5.1 闭环执行能力", "5.1 Closed-loop execution"), t("在 RoboDojo 的 4 个代表场景中对比执行表现。", "Compare execution across four representative RoboDojo scenes."))}
-    <div class="eval-split"><div><div id="scene-media">${mediaPlaceholder(`scene-${activeScene}`, sceneTitle(), `ROBODOJO / SCENE 0${activeScene}`)}</div>
+  return `<div class="eval-split"><div><div id="scene-media">${mediaPlaceholder(`scene-${activeScene}`, sceneTitle(), `ROBODOJO / SCENE 0${activeScene}`)}</div>
       <div class="scene-selector" role="group" aria-label="${t("选择 RoboDojo 场景", "Select a RoboDojo scene")}">${[1, 2, 3, 4].map(scene => `<button data-scene="${scene}" aria-pressed="${String(scene) === activeScene}">${sceneName(scene)}</button>`).join("")}</div></div>
       <div class="results-block"><div class="table-caption"><span>${t("任务成功率对比", "Task success rate")}</span><small>SUCCESS RATE ↑</small></div>
         <table class="result-table"><thead><tr><th scope="col">${t("场景", "Scene")}</th><th scope="col">${t("对比基线", "Baseline")}</th><th scope="col" class="highlight-column">RoBIOS</th><th scope="col">${t("差值", "Delta")}</th></tr></thead><tbody>
@@ -93,8 +92,7 @@ function loopPanel() {
 }
 
 function simulationPanel() {
-  return `${evaluationHeading(t("5.3 多仿真环境验证", "5.3 Simulation environments"), t("分别报告各环境的任务表现与运行配置。", "Report task performance and runtime configuration for each environment."))}
-    <div class="environment-tabs" role="group" aria-label="${t("选择仿真环境", "Select a simulation environment")}">${Object.entries(environmentNames).map(([id, name]) => `<button data-environment="${id}" aria-pressed="${id === activeEnvironment}">${name}</button>`).join("")}</div>
+  return `<div class="environment-tabs" role="group" aria-label="${t("选择仿真环境", "Select a simulation environment")}">${Object.entries(environmentNames).map(([id, name]) => `<button data-environment="${id}" aria-pressed="${id === activeEnvironment}">${name}</button>`).join("")}</div>
     <div class="eval-split"><div id="environment-media">${mediaPlaceholder(`sim-${activeEnvironment}`, simulationTitle(), `${environmentNames[activeEnvironment].toUpperCase()} / SIMULATION`)}</div>
       <div class="results-block"><div class="table-caption"><span>${t("各环境评测结果", "Results by environment")}</span><small>PER ENVIRONMENT</small></div>
         <table class="result-table"><thead><tr><th scope="col">${t("环境", "Environment")}</th><th scope="col">${t("成功率 ↑", "Success ↑")}</th><th scope="col">${t("耗时 ↓", "Time ↓")}</th><th scope="col">${t("次数", "Trials")}</th></tr></thead><tbody>
@@ -109,26 +107,39 @@ function embodimentPanel() {
     ["stardust", t("星尘 T1", "Stardust T1"), "STARDUST / T1"],
     ["unitree", t("宇树 G1", "Unitree G1"), "UNITREE / G1"],
   ];
-  return `${evaluationHeading(t("5.4 多本体支持", "5.4 Multi-embodiment support"), t("在同一任务规范下，验证不同机器人的执行与适配。", "Evaluate execution and adaptation across robots under the same task specification."))}
-    <div class="robot-cards">${robots.map(([id, name, code]) => `<article class="robot-card">${mediaPlaceholder(`robot-${id}`, `${name} · ${t("同场景执行演示", "Task execution demo")}`, code)}<div class="robot-card-body"><h4>${name}</h4><p>${t("任务与适配范围待补充", "Tasks and adaptation scope pending")}</p><div class="robot-card-metric"><span>${t("任务成功率", "Success rate")}</span><span>—</span></div><div class="robot-card-metric"><span>${t("完成耗时", "Completion time")}</span><span>—</span></div></div></article>`).join("")}</div>`;
+  return `<div class="robot-cards">${robots.map(([id, name, code]) => `<article class="robot-card">${mediaPlaceholder(`robot-${id}`, `${name} · ${t("同场景执行演示", "Task execution demo")}`, code)}<div class="robot-card-body"><h4>${name}</h4><p>${t("任务与适配范围待补充", "Tasks and adaptation scope pending")}</p><div class="robot-card-metric"><span>${t("任务成功率", "Success rate")}</span><span>—</span></div><div class="robot-card-metric"><span>${t("完成耗时", "Completion time")}</span><span>—</span></div></div></article>`).join("")}</div>`;
 }
 
 function migrationPanel() {
-  return `${evaluationHeading(t("5.5 插件迁移与能力复用", "5.5 Plugin migration & reuse"), t("将 Hexashell 迁移至 RoBIOS，在 RoboCasa 中对比迁移前后的表现。", "Migrate Hexashell to RoBIOS and compare performance in RoboCasa."))}
-    <div class="eval-split"><div>${mediaPlaceholder("migration", t("Hexashell → RoBIOS 插件迁移演示", "Hexashell → RoBIOS migration demo"), "HEXASHELL / MIGRATION")}</div>
+  return `<div class="eval-split"><div>${mediaPlaceholder("migration", t("Hexashell → RoBIOS 插件迁移演示", "Hexashell → RoBIOS migration demo"), "HEXASHELL / MIGRATION")}</div>
       <div class="results-block"><div class="migration-flow"><div><strong>Hexashell</strong><small>${t("迁移前", "Before")}</small></div><span aria-hidden="true">→</span><div><strong>${t("RoBIOS 插件", "RoBIOS plugin")}</strong><small>${t("迁移后", "After")}</small></div><span aria-hidden="true">→</span><div><strong>RoboCasa</strong><small>${t("评测环境", "Evaluation")}</small></div></div>
         <table class="result-table"><thead><tr><th scope="col">${t("验证维度", "Metric")}</th><th scope="col">${t("迁移前", "Before")}</th><th scope="col" class="highlight-column">${t("迁移后", "After")}</th></tr></thead><tbody>${[t("任务成功率", "Success rate"), t("完成耗时", "Completion time"), t("适配改动", "Adaptation effort")].map(metric => `<tr><td>${metric}</td><td>—</td><td class="highlight-column">—</td></tr>`).join("")}</tbody></table><p class="results-note">${t("性能、迁移代码与适配成本待补充。", "Performance, migration code, and adaptation cost are pending.")}</p>
       </div></div>`;
 }
 
 function budgetPanel() {
-  return `${evaluationHeading(t("5.2 预算敏感的闭环控制粒度", "5.2 Budget-aware control granularity"), t("实验预留", "Reserved for evaluation"))}
-    <div class="budget-empty" aria-label="${t("预算敏感实验区域，内容暂留空", "Budget-aware evaluation area, intentionally empty")}"></div>`;
+  return `<p class="budget-note">${t("实验设计与评测结果待补充。", "Evaluation design and results are pending.")}</p>`;
 }
-const evaluationPanels = { loop: loopPanel, budget: budgetPanel, simulation: simulationPanel, embodiment: embodimentPanel, migration: migrationPanel };
+function evaluationPanels() {
+  return [
+    { id: "loop", title: t("5.1 闭环执行能力", "5.1 Closed-loop execution"), description: t("在 RoboDojo 的 4 个代表场景中对比执行表现。", "Compare execution across four representative RoboDojo scenes."), render: loopPanel, videos: ["scene-1", "scene-2", "scene-3", "scene-4"] },
+    { id: "budget", title: t("5.2 预算敏感的闭环控制粒度", "5.2 Budget-aware control granularity"), description: t("比较可用预算与闭环控制粒度的关系。", "Evaluate how the available budget relates to control granularity."), render: budgetPanel, videos: [] },
+    { id: "simulation", title: t("5.3 多仿真环境验证", "5.3 Simulation environments"), description: t("分别报告各环境的任务表现与运行配置。", "Report task performance and runtime configuration for each environment."), render: simulationPanel, videos: ["sim-robodojo", "sim-robocasa", "sim-behavior"] },
+    { id: "embodiment", title: t("5.4 多本体支持", "5.4 Multi-embodiment support"), description: t("在同一任务规范下，验证不同机器人的执行与适配。", "Evaluate execution and adaptation across robots under the same task specification."), render: embodimentPanel, videos: ["robot-galaxea", "robot-stardust", "robot-unitree"] },
+    { id: "migration", title: t("5.5 插件迁移与能力复用", "5.5 Plugin migration & reuse"), description: t("将 Hexashell 迁移至 RoBIOS，在 RoboCasa 中对比迁移前后的表现。", "Migrate Hexashell to RoBIOS and compare performance in RoboCasa."), render: migrationPanel, videos: ["migration"] },
+  ];
+}
 function renderEvaluations() {
-  document.querySelector("#evaluation-content").innerHTML = Object.entries(evaluationPanels)
-    .map(([category, render]) => `<section id="eval-${category}" class="experiment-section">${render()}</section>`).join("");
+  const content = document.querySelector("#evaluation-content");
+  const previousPanels = new Map([...content.querySelectorAll("details")].map(panel => [panel.closest("section").id, panel.open]));
+  content.innerHTML = evaluationPanels().map(({ id, title, description, render, videos }) => {
+    const open = previousPanels.get(`eval-${id}`) ?? videos.some(video => Boolean(videoSources[video]));
+    return `<section id="eval-${id}" class="experiment-section">${evaluationHeading(title, description)}
+      <details class="experiment-details"${open ? " open" : ""}>
+        <summary><span class="details-show">${t("查看实验详情", "View evaluation details")}</span><span class="details-hide">${t("收起实验详情", "Hide evaluation details")}</span><span class="details-indicator" aria-hidden="true"></span></summary>
+        <div class="experiment-body">${render()}</div>
+      </details></section>`;
+  }).join("");
   document.querySelector("#hero-media").innerHTML = videoSources.hero
     ? mediaPlaceholder("hero", t("真实环境闭环执行演示", "Physical-world execution demo"), "RoBIOS / LIVE DEMO") : "";
 }
