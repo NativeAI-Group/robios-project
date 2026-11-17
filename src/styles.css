@@ -166,8 +166,9 @@ html[lang="en"] .architecture-lifecycle strong { font-size: 12px; }
 .plugin-assembly > h3 { margin: 0 0 12px; font-size: 16px; }
 .assembly-flow { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; list-style: none; padding: 16px 0; border-block: 1px solid var(--line); margin: 0; }
 .assembly-flow > li { position: relative; text-align: center; min-width: 0; }
-.assembly-flow > li:not(:last-child)::after { content: "→"; position: absolute; top: 24px; right: -24px; color: #809373; font-size: 20px; }
+.assembly-flow > li:not(:last-child)::after { content: "→"; position: absolute; top: 50%; transform: translateY(-50%); right: -24px; color: #809373; font-size: 20px; }
 .assembly-flow li > span { display: block; font: 9px var(--mono); color: #6e8063; }
+.assembly-icon { width: 32px; height: 32px; margin: 12px auto 0; fill: none; stroke: var(--accent); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .assembly-flow strong { display: block; font-size: 14px; margin: 9px 0 5px; font-weight: 500; }
 .assembly-flow small { display: block; font-size: 12px; color: #63745c; }
 .experiment-section { margin: 0 0 36px; scroll-margin-top: 36px; }

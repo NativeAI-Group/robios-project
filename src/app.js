@@ -132,8 +132,8 @@ function evaluationPanels() {
 function renderEvaluations() {
   const content = document.querySelector("#evaluation-content");
   const previousPanels = new Map([...content.querySelectorAll("details")].map(panel => [panel.closest("section").id, panel.open]));
-  content.innerHTML = evaluationPanels().map(({ id, title, description, render, videos }) => {
-    const open = previousPanels.get(`eval-${id}`) ?? videos.some(video => Boolean(videoSources[video]));
+  content.innerHTML = evaluationPanels().map(({ id, title, description, render }) => {
+    const open = previousPanels.get(`eval-${id}`) ?? true;
     return `<section id="eval-${id}" class="experiment-section">${evaluationHeading(title, description)}
       <details class="experiment-details"${open ? " open" : ""}>
         <summary><span class="details-show">${t("查看实验详情", "View evaluation details")}</span><span class="details-hide">${t("收起实验详情", "Hide evaluation details")}</span><span class="details-indicator" aria-hidden="true"></span></summary>
