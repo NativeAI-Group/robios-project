@@ -7,8 +7,8 @@
     <meta name="description" content="RoBIOS, an embodied-native agent framework for the physical world. A minimal kernel governs the action loop, with composable plugins for reusable capabilities." />
     <title>RoBIOS — Embodied-native Agent Framework</title>
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=2" />
-    <link rel="stylesheet" href="src/styles.css?v=24" />
-    <script src="src/app.js?v=11" defer></script>
+    <link rel="stylesheet" href="src/styles.css?v=25" />
+    <script src="src/app.js?v=12" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main" data-zh="跳转到正文">Skip to content</a>
@@ -113,7 +113,7 @@
                 <div class="diagram-connector" aria-hidden="true">↕</div>
                 <div class="architecture-plugin-row"><span class="diagram-eyebrow" data-zh="行动生命周期插件">LIFECYCLE PLUGINS</span><p data-zh="提议 · 准入 · 执行 · 监测 · 准出">Propose · Admission · Execute · Monitor · Clearance</p></div>
                 <div class="diagram-connector" aria-hidden="true">↕</div>
-                <div class="architecture-adapters"><div><span class="diagram-eyebrow">REAL HAL</span><strong data-zh="真实机器人">Robot embodiments</strong><small>Galaxea G1 · Stardust T1 · Unitree G1</small></div><div><span class="diagram-eyebrow">SIM BRIDGE</span><strong data-zh="仿真环境">Simulation environments</strong><small>RoboDojo · RoboCasa · BEHAVIOR-1K</small></div></div>
+                <div class="architecture-adapters"><div><span class="diagram-eyebrow">REAL HAL</span><strong data-zh="真实机器人">Robot embodiments</strong><small>Galaxea G1 · Astribot T1 · Unitree G1</small></div><div><span class="diagram-eyebrow">SIM BRIDGE</span><strong data-zh="仿真环境">Simulation environments</strong><small>RoboDojo · RoboCasa · BEHAVIOR-1K</small></div></div>
               </div>
             </figure>
           </section>
@@ -135,8 +135,8 @@
 
           <section id="plugins" class="article-section">
             <h2 data-zh="4. 插件机制">4. Plugin ecosystem</h2>
-            <p data-zh="九类插件覆盖行动生命周期、通用能力及环境适配。选择分类查看具体职责。">Nine plugin types cover the action lifecycle, shared capabilities, and environment adapters. Select a group to explore.</p>
-            <div class="plugin-workspace"><div class="plugin-tabs" role="tablist" aria-label="Plugin categories" data-zh-aria-label="插件分类"><button id="plugin-tab-lifecycle" role="tab" aria-selected="true" aria-controls="plugin-panel" data-plugin="lifecycle" tabindex="0"><span data-zh="行动生命周期">Action lifecycle</span><small>5</small></button><button id="plugin-tab-capabilities" role="tab" aria-selected="false" aria-controls="plugin-panel" data-plugin="capabilities" tabindex="-1"><span data-zh="通用能力">Shared capabilities</span><small>2</small></button><button id="plugin-tab-adapters" role="tab" aria-selected="false" aria-controls="plugin-panel" data-plugin="adapters" tabindex="-1"><span data-zh="环境与本体适配">Adapters</span><small>2</small></button></div><div id="plugin-panel" class="plugin-panel" role="tabpanel" aria-labelledby="plugin-tab-lifecycle" tabindex="0"></div></div>
+            <p data-zh="十一类插件覆盖行动生命周期、通用能力及环境适配。选择分类查看具体职责。">Eleven plugin types cover the action lifecycle, shared capabilities, and environment adapters. Select a group to explore.</p>
+            <div class="plugin-workspace"><div class="plugin-tabs" role="tablist" aria-label="Plugin categories" data-zh-aria-label="插件分类"><button id="plugin-tab-lifecycle" role="tab" aria-selected="true" aria-controls="plugin-panel" data-plugin="lifecycle" tabindex="0"><span data-zh="行动生命周期">Action lifecycle</span><small>5</small></button><button id="plugin-tab-capabilities" role="tab" aria-selected="false" aria-controls="plugin-panel" data-plugin="capabilities" tabindex="-1"><span data-zh="通用能力">Shared capabilities</span><small>4</small></button><button id="plugin-tab-adapters" role="tab" aria-selected="false" aria-controls="plugin-panel" data-plugin="adapters" tabindex="-1"><span data-zh="环境与本体适配">Adapters</span><small>2</small></button></div><div id="plugin-panel" class="plugin-panel" role="tabpanel" aria-labelledby="plugin-tab-lifecycle" tabindex="0"></div></div>
             <section class="plugin-assembly" aria-labelledby="plugin-assembly-title">
               <h3 id="plugin-assembly-title" data-zh="插件装配流程">Plugin assembly workflow</h3>
               <ol class="assembly-flow">

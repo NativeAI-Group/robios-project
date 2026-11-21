@@ -162,6 +162,7 @@ html[lang="en"] .architecture-lifecycle strong { font-size: 12px; }
 .plugin-card h4 { margin: 0; font-size: 14px; font-weight: 500; }
 .plugin-card p { margin: 0; font-size: 12px; line-height: 1.8; color: #63745c; }
 .plugin-card-grid.two-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.plugin-card-grid.four-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .plugin-assembly { margin-top: 24px; }
 .plugin-assembly > h3 { margin: 0 0 12px; font-size: 16px; }
 .assembly-flow { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; list-style: none; padding: 16px 0; border-block: 1px solid var(--line); margin: 0; }
@@ -285,7 +286,7 @@ dialog::backdrop { background: #1f3028aa; backdrop-filter: blur(5px); }
   .result-table th { font-size: 12px; }
 }
 @media (min-width: 1101px) {
-  .plugin-card-grid:not(.two-cards) { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .plugin-card-grid:not(.two-cards):not(.four-cards) { grid-template-columns: repeat(5, minmax(0, 1fr)); }
   .plugin-card { padding: 16px 13px; }
 }
 @media (max-width: 1100px) {
